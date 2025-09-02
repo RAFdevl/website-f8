@@ -214,4 +214,185 @@ export default function Login() {
 
 }
 
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="form-container fade-in">
+      <h2 style={{ textAlign: "center", marginBottom: "2rem", color: "#333" }}>
+        {isRegistering ? "Daftar Akun" : "Login Kelas 11 F8"}
+      </h2>
+      
+      {error && (
+        <div className="message message-error">
+          {error}
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit}>
+        {isRegistering && (
+          <input
+            type="text"
+            placeholder="Nama Lengkap"
+            value={nama}
+            onChange={(e) => setNama(e.target.value)}
+            className="form-input"
+            required
+          />
+        )}
+        
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="form-input"
+          required
+        />
+        
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="form-input"
+          required
+        />
+        
+        {isRegistering && (
+          <input
+            type="password"
+            placeholder="Konfirmasi Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="form-input"
+            required
+          />
+        )}
+        
+        <button 
+          type="submit" 
+          className="form-button"
+          disabled={loading}
+        >
+          {loading ? "Memproses..." : (isRegistering ? "Daftar" : "Login")}
+        </button>
+      </form>
+
+      <p style={{ textAlign: "center", marginTop: "1rem", color: "#666" }}>
+        {isRegistering ? "Sudah punya akun? " : "Belum punya akun? "}
+        <button
+          type="button"
+          onClick={() => setIsRegistering(!isRegistering)}
+          style={{
+            background: "none",
+            border: "none",
+            color: "#667eea",
+            cursor: "pointer",
+            textDecoration: "underline"
+          }}
+        >
+          {isRegistering ? "Login disini" : "Daftar disini"}
+        </button>
+      </p>
+
+      <div style={{ marginTop: "2rem", padding: "1rem", background: "#f8f9fa", borderRadius: "5px" }}>
+        <p style={{ fontSize: "14px", color: "#666", textAlign: "center" }}>
+          <strong>Akun Demo:</strong><br />
+          Admin: admin@kelas11f8.com / admin123<br />
+          User: user@kelas11f8.com / user123
+        </p>
+      </div>
+    </div>
+  );
+}      
+      {error && (
+        <div className="message message-error">
+          {error}
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit}>
+        {isRegistering && (
+          <input
+            type="text"
+            placeholder="Nama Lengkap"
+            value={nama}
+            onChange={(e) => setNama(e.target.value)}
+            className="form-input"
+            required
+          />
+        )}
+        
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="form-input"
+          required
+        />
+        
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="form-input"
+          required
+        />
+        
+        {isRegistering && (
+          <input
+            type="password"
+            placeholder="Konfirmasi Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="form-input"
+            required
+          />
+        )}
+        
+        <button 
+          type="submit" 
+          className="form-button"
+          disabled={loading}
+        >
+          {loading ? "Memproses..." : (isRegistering ? "Daftar" : "Login")}
+        </button>
+      </form>
+
+      <p style={{ textAlign: "center", marginTop: "1rem", color: "#666" }}>
+        {isRegistering ? "Sudah punya akun? " : "Belum punya akun??? "}
+        <button
+          type="button"
+          onClick={() => setIsRegistering(!isRegistering)}
+          style={{
+            background: "none",
+            border: "none",
+            color: "#667eea",
+            cursor: "pointer",
+            textDecoration: "underline"
+          }}
+        >
+          {isRegistering ? "Login disini" : "Daftar disini Ya"}
+        </button>
+      </p>
+
+      <div style={{ marginTop: "2rem", padding: "1rem", background: "#f8f9fa", borderRadius: "5px" }}>
+        <p style={{ fontSize: "14px", color: "#666", textAlign: "center" }}>
+          <strong>Akun Demo:</strong><br />
+          Admin: admin@kelas11f8.com / admin123<br />
+          User: user@kelas11f8.com / user123 tes 
+        </p>
+      </div>
+    </div>
+  );
+
+}
+
+
 
