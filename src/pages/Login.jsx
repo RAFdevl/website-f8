@@ -186,7 +186,7 @@ export default function Login() {
       </form>
 
       <p style={{ textAlign: "center", marginTop: "1rem", color: "#666" }}>
-        {isRegistering ? "Sudah punya akun? " : "Belum punya akun? "}
+        {isRegistering ? "Sudah punya akun? " : "Belum punya akun??? "}
         <button
           type="button"
           onClick={() => setIsRegistering(!isRegistering)}
@@ -213,4 +213,5 @@ export default function Login() {
   );
 
 }
+
 
