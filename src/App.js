@@ -1,6 +1,6 @@
+import React, { useEffect, useState } from "react";
 import { getDoc, doc } from "firebase/firestore";
 import { db } from "./firebase";
-import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { auth } from "./firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
@@ -85,4 +85,5 @@ useEffect(() => {
 }
 
 export default App;
+
 
