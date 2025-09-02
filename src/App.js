@@ -3,11 +3,10 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "./firebase";
 import { doc, getDoc } from "firebase/firestore";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import AdminPanel from "./pages/AdminPanel";
+import Profile from "./pages/Profile";
 import "./App.css";
 
 function App() {
@@ -61,3 +60,4 @@ function App() {
 }
 
 export default App;
+
