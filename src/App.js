@@ -1,31 +1,31 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth, db } from "./firebase";
-import { doc, getDoc } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { auth } from "./firebase";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import "./App.css";
+
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import AdminPanel from "./pages/AdminPanel";
 import Profile from "./pages/Profile";
-import "./App.css";
 
 function App() {
   const [user, setUser] = useState(null);
   const [admin, setAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setUser(user);
-      if (user) {
-        const userDoc = await getDoc(doc(db, "users", user.uid));
-        setAdmin(userDoc.exists() && userDoc.data().role === "admin");
-      } else {
-        setAdmin(false);
-      }
-      setLoading(false);
-    });
-    return unsubscribe;
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    setUser(user);
+    if (user) {
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      setAdmin(userDoc.exists() && userDoc.data().role === "admin");
+    } else {
+      setAdmin(false);
+    }
+    setLoading(false);
+  });
+  return unsubscribe;
   }, []);
 
   if (loading) {
@@ -40,24 +40,46 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Header />
-        <nav>
-          <Link to="/">Home</Link>
-          <Link to="/about">About</Link>
-          <Link to="/contact">Contact</Link>
-          {admin && <Link to="/admin">Admin Panel</Link>}
-        </nav>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          {/* ...other routes */}
-        </Routes>
-        <Footer />
+        {user && (
+          <nav className="navbar">
+            <div className="nav-brand">
+              <h2>Kelas 11 F8</h2>
+            </div>
+            <div className="nav-links">
+              <a href="/">Dashboard</a>
+              <a href="/profile">Profil</a>
+              {admin && <a href="/admin">Admin Panel</a>}
+              <button onClick={() => signOut(auth)} className="logout-btn">
+                Logout
+              </button>
+            </div>
+          </nav>
+        )}
+        
+        <main className="main-content">
+          <Routes>
+            <Route 
+              path="/login" 
+              element={!user ? <Login /> : <Navigate to="/" />} 
+            />
+            <Route 
+              path="/" 
+              element={user ? <Dashboard admin={admin} /> : <Navigate to="/login" />} 
+            />
+            <Route 
+              path="/admin" 
+              element={user && admin ? <AdminPanel /> : <Navigate to="/" />} 
+            />
+            <Route 
+              path="/profile" 
+              element={user ? <Profile user={user} /> : <Navigate to="/login" />} 
+            />
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </main>
       </div>
     </Router>
   );
 }
 
 export default App;
-
