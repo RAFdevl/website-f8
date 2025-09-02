@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate, Link } from "react-router-dom";
-import { auth } from "./firebase";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, db } from "./firebase";
+import { doc, getDoc } from "firebase/firestore";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 import "./App.css";
-
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import AdminPanel from "./pages/AdminPanel";
-import Profile from "./pages/Profile";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -15,9 +16,14 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setUser(user);
-      setAdmin(user?.email === "admin@kelas11f8.com");
+      if (user) {
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        setAdmin(userDoc.exists() && userDoc.data().role === "admin");
+      } else {
+        setAdmin(false);
+      }
       setLoading(false);
     });
     return unsubscribe;
@@ -35,48 +41,20 @@ function App() {
   return (
     <Router>
       <div className="App">
-        {user && (
-          <nav className="navbar">
-            <div className="nav-brand">
-              <h2>Kelas 11 F8</h2>
-            </div>
-            <div className="nav-links">
-              <Link to="/">Dashboard</Link>
-              <Link to="/profile">Profil</Link>
-              {admin && <Link to="/admin">Admin Panel</Link>}
-              <button
-                onClick={() => {
-                  signOut(auth);
-                }}
-                className="logout-btn"
-              >
-                Logout
-              </button>
-            </div>
-          </nav>
-        )}
-
-        <main className="main-content">
-          <Routes>
-            <Route
-              path="/login"
-              element={!user ? <Login /> : <Navigate to="/" />}
-            />
-            <Route
-              path="/"
-              element={user ? <Dashboard admin={admin} /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/admin"
-              element={user && admin ? <AdminPanel /> : <Navigate to="/" />}
-            />
-            <Route
-              path="/profile"
-              element={user ? <Profile user={user} /> : <Navigate to="/login" />}
-            />
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-        </main>
+        <Header />
+        <nav>
+          <Link to="/">Home</Link>
+          <Link to="/about">About</Link>
+          <Link to="/contact">Contact</Link>
+          {admin && <Link to="/admin">Admin Panel</Link>}
+        </nav>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          {/* ...other routes */}
+        </Routes>
+        <Footer />
       </div>
     </Router>
   );
