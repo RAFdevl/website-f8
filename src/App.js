@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, Link } from "react-router-dom";
 import { auth } from "./firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import "./App.css";
@@ -41,33 +41,38 @@ function App() {
               <h2>Kelas 11 F8</h2>
             </div>
             <div className="nav-links">
-              <a href="/">Dashboard</a>
-              <a href="/profile">Profil</a>
-              {admin && <a href="/admin">Admin Panel</a>}
-              <button onClick={() => signOut(auth)} className="logout-btn">
+              <Link to="/">Dashboard</Link>
+              <Link to="/profile">Profil</Link>
+              {admin && <Link to="/admin">Admin Panel</Link>}
+              <button
+                onClick={() => {
+                  signOut(auth);
+                }}
+                className="logout-btn"
+              >
                 Logout
               </button>
             </div>
           </nav>
         )}
-        
+
         <main className="main-content">
           <Routes>
-            <Route 
-              path="/login" 
-              element={!user ? <Login /> : <Navigate to="/" />} 
+            <Route
+              path="/login"
+              element={!user ? <Login /> : <Navigate to="/" />}
             />
-            <Route 
-              path="/" 
-              element={user ? <Dashboard admin={admin} /> : <Navigate to="/login" />} 
+            <Route
+              path="/"
+              element={user ? <Dashboard admin={admin} /> : <Navigate to="/login" />}
             />
-            <Route 
-              path="/admin" 
-              element={user && admin ? <AdminPanel /> : <Navigate to="/" />} 
+            <Route
+              path="/admin"
+              element={user && admin ? <AdminPanel /> : <Navigate to="/" />}
             />
-            <Route 
-              path="/profile" 
-              element={user ? <Profile user={user} /> : <Navigate to="/login" />} 
+            <Route
+              path="/profile"
+              element={user ? <Profile user={user} /> : <Navigate to="/login" />}
             />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
