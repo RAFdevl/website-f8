@@ -206,10 +206,11 @@ export default function Login() {
         <p style={{ fontSize: "14px", color: "#666", textAlign: "center" }}>
           <strong>Akun Demo:</strong><br />
           Admin: admin@kelas11f8.com / admin123<br />
-          User: user@kelas11f8.com / user123
+          User: user@kelas11f8.com / user123 tes 
         </p>
       </div>
     </div>
   );
 
 }
+
