@@ -14,7 +14,7 @@ export default function Profile({ user }) {
     setMessage("");
 
     try {
-      await updateProfile(user, {
+      await updateProfile(auth.currentUser, {
         displayName: displayName.trim(),
         photoURL: photoURL.trim() || null
       });
@@ -42,7 +42,7 @@ export default function Profile({ user }) {
           <div>
             <h2>{user.displayName || "User"}</h2>
             <p>{user.email}</p>
-            <p>Role: {user.email === "admin@kelas11f8.com" ? "Admin" : "User"}</p>
+            <p>Role: {user.role === "admin" ? "Admin" : "User"}</p>
           </div>
         </div>
 
