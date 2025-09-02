@@ -1,3 +1,5 @@
+import { getDoc, doc } from "firebase/firestore";
+import { db } from "./firebase";
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { auth } from "./firebase";
@@ -83,3 +85,4 @@ useEffect(() => {
 }
 
 export default App;
+
